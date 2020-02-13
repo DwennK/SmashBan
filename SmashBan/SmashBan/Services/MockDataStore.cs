@@ -6,55 +6,56 @@ using SmashBan.Models;
 
 namespace SmashBan.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Stage>
     {
         readonly List<Item> items;
+        readonly List<Stage> stages;
 
         public MockDataStore()
         {
-            items = new List<Item>()
+            stages = new List<Stage>()
             {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
+                new Stage {Nom = "Final Destination", Image="" },
+                new Stage {Nom = "Battlefield", Image="" },
+                new Stage {Nom = "Smashville", Image="" },
+                new Stage {Nom = "Town and City", Image="" },
+                new Stage {Nom = "Pokémon Stadium 2", Image="" },
+                new Stage {Nom = "Kalos Pokémon League", Image="" }
             };
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItemAsync(Stage stage)
         {
-            items.Add(item);
+            stages.Add(stage);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItemAsync(Stage stage)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var oldItem = stages.Where((Stage arg) => arg.Nom == stage.Nom).FirstOrDefault();
+            stages.Remove(oldItem);
+            stages.Add(stage);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(string id)
+        public async Task<bool> DeleteItemAsync(string Nom)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
+            var oldItem = stages.Where((Stage arg) => arg.Nom == Nom).FirstOrDefault();
+            stages.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Stage> GetItemAsync(string Nom)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(stages.FirstOrDefault(s => s.Nom == Nom));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Stage>> GetItemsAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(items);
+            return await Task.FromResult(stages);
         }
     }
 }
